@@ -1,6 +1,5 @@
 import pygame, time
 from pygame.locals import *
-from define_maze import define_Maze
 
 class define_User:
 	def __init__(self):
@@ -15,10 +14,6 @@ class define_User:
 		self.FPS = 60
 		self.clock = pygame.time.Clock()
 		self.playing = True
-		
-		self.Maze = define_Maze(5)
-		self.timePassed = 0
-		self.mazeTimes = []
 	
 	def update_display(self, DisplayWidth, DisplayHeight, fullscreen):
 		if fullscreen == False:
@@ -29,16 +24,5 @@ class define_User:
 			self.font = pygame.font.Font('Display/Fonts/m6x11.ttf', round(DisplayHeight / 32))
 		else:
 			self.font = pygame.font.Font('Display/Fonts/m6x11.ttf', round(DisplayWidth / 32))
-			
-	def update_maze(self):
-		if self.Maze.check_closedBox():
-			self.Maze.create_maze()
-			self.timePassed += 1
-			return
-		self.mazeTimes.append([self.Maze.mazeSize, self.timePassed])
-		print("Size {}, time: {}".format(self.Maze.mazeSize, self.timePassed))
-		self.Maze = define_Maze(self.Maze.mazeSize + 5)
-		self.startTime = 0
-		
 
 User = define_User()

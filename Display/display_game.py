@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from User.define_user import User
+from define_maze import Maze
 from Display.define_display import Display
 
 def print_text(text, position, color = (255, 255, 255)):
@@ -13,10 +14,10 @@ def display_stats():
 		print_text("FPS: "+f'{User.clock.get_fps() :.1f}', [0, 0], (255, 60, 60))
 		return
 	print_text("FPS: "f'{User.clock.get_fps() :.1f}', [0, 0], (60, 255, 60))
-	for mazeTime in range(len(User.mazeTimes)):
-		print_text(str(User.mazeTimes[mazeTime][0])+": "+str(round(User.mazeTimes[mazeTime][1], 2)), [0, mazeTime + 1], (120, 120, 255))
 
 def display_box(box, position, tileSize, mazeSize):
+	if box[0] and box[1] and box[2] and box[3]:
+		return
 	wallWidth = round((9 / mazeSize) / 20 * tileSize)
 	if wallWidth < 1:
 		wallWidth = 1
@@ -50,6 +51,6 @@ def display_game():
 	pygame.draw.rect(User.Display, Display.floorColor, (0, 0, Display.DisplayWidth, Display.DisplayHeight))
 	if Display.displayStats:
 		display_stats()
-	draw_maze(User.Maze)
+	draw_maze(Maze.Maze)
 	
 	

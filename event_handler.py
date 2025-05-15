@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from User.define_user import User
+from define_maze import Maze
 from User.define_controls import Controls
 from Display.define_display import Display
 from define_maze import *
@@ -23,6 +24,6 @@ def event_handler():
 			Display.change_displaySize(width, height)
 		if event.type == pygame.QUIT:
 			User.playing = False
-	
-	User.update_maze()
+		
+	Maze.update_maze()
 
