@@ -12,7 +12,7 @@ class define_Huntkill:
 			return True
 		return False
 
-	def check_closedBox(self, position = None):
+	def check_maze(self, position = None):
 		if position == None:
 			for row in self.maze:
 				for column in row:
@@ -31,7 +31,7 @@ class define_Huntkill:
 
 	def create_maze(self):
 		while self.hunting:
-			closedBox = self.check_closedBox(self.position)
+			closedBox = self.check_maze(self.position)
 			if closedBox:
 				self.huntPosition = self.position.copy()
 				break
@@ -42,7 +42,7 @@ class define_Huntkill:
 			return
 
 		self.hunting = False
-		closedBox = self.check_closedBox()
+		closedBox = self.check_maze()
 
 		if closedBox:
 			canMove = False

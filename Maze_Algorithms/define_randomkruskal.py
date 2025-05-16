@@ -1,7 +1,7 @@
 import random
 
 class define_Randomkruskal:
-	def check_closedBox(self):
+	def check_maze(self):
 		for row in self.numbers:
 			for column in row:
 				if column != 0:
@@ -21,7 +21,7 @@ class define_Randomkruskal:
 					self.numbers[row][column] = replacement
 	
 	def create_maze(self):
-		closedBox = self.check_closedBox()
+		closedBox = self.check_maze()
 		self.position = [random.randrange(self.mazeSize), random.randrange(self.mazeSize)]
 
 		if closedBox:

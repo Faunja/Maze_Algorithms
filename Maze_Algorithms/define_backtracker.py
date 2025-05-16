@@ -12,7 +12,7 @@ class define_Backtracker:
 			return True
 		return False
 
-	def check_closedBox(self):
+	def check_maze(self):
 		for row in self.maze:
 			for column in row:
 				if column[0] and column[1] and column[2] and column[3]:
@@ -20,7 +20,7 @@ class define_Backtracker:
 		return False
 
 	def create_maze(self):
-		closedBox = self.check_closedBox()
+		closedBox = self.check_maze()
 
 		if closedBox:
 			canMove = False
