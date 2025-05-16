@@ -30,20 +30,20 @@ def display_box(box, position, tileSize, mazeSize):
 	if box[3] == 1:
 		pygame.draw.line(User.Display, Display.wallColor, (position[0] + tileSize, position[1]), (position[0] + tileSize, position[1] + tileSize), wallWidth)
 
-def draw_maze(Maze):
+def draw_maze(Maze, displayWidth = Display.DisplayWidth, displayOffset = [0, 0]):
 	if Maze == None:
 		return
-	tileSize = (Display.DisplayWidth - Display.ScreenOffset[0] * 2) / (Maze.mazeSize + 2)
+	tileSize = (displayWidth - (Display.ScreenOffset[0] * 2) / Display.DisplayWidth * displayWidth) / (Maze.mazeSize + 2)
 	for col in range(Maze.mazeSize):
-		yOffset = col * tileSize + Display.ScreenOffset[1] + tileSize
+		yOffset = col * tileSize + Display.ScreenOffset[1] + tileSize + displayOffset[1]
 		if yOffset < -tileSize or yOffset > Display.DisplayHeight + tileSize:
 			continue
 		for row in range(Maze.mazeSize):
-			xOffset = row * tileSize + Display.ScreenOffset[0] + tileSize
+			xOffset = row * tileSize + Display.ScreenOffset[0] + tileSize + displayOffset[0]
 			if xOffset < -tileSize or xOffset > Display.DisplayWidth + tileSize:
 				continue
 			display_box(Maze.maze[col][row], [xOffset, yOffset], tileSize, Maze.mazeSize)
-	totalOffset = [tileSize * 1 / 8 + Display.ScreenOffset[0] + tileSize, tileSize * 1 / 8 + Display.ScreenOffset[1] + tileSize]
+	totalOffset = [tileSize * 1 / 8 + Display.ScreenOffset[0] + tileSize + displayOffset[0], tileSize * 1 / 8 + Display.ScreenOffset[1] + tileSize + displayOffset[1]]
 	outlineRect = (Maze.position[0] * tileSize + totalOffset[0], Maze.position[1] * tileSize + totalOffset[1], tileSize * 3 / 4, tileSize * 3 / 4)
 	pygame.draw.rect(User.Display,  (255, 60, 60), outlineRect)
 
@@ -51,6 +51,9 @@ def display_game():
 	pygame.draw.rect(User.Display, Display.floorColor, (0, 0, Display.DisplayWidth, Display.DisplayHeight))
 	if Display.displayStats:
 		display_stats()
-	draw_maze(Maze.Maze)
+	draw_maze(Maze.Backtracker[0], Display.DisplayWidth / 2, [0, 0])
+	draw_maze(Maze.Huntkill[0], Display.DisplayWidth / 2, [Display.DisplayWidth / 2 - Display.ScreenOffset[0], 0])
+	draw_maze(Maze.Randomkruskal[0], Display.DisplayWidth / 2, [0, Display.DisplayHeight / 2 - Display.ScreenOffset[1]])
+	draw_maze(Maze.Ellermaze[0], Display.DisplayWidth / 2, [Display.DisplayWidth / 2 - Display.ScreenOffset[0], Display.DisplayHeight / 2 - Display.ScreenOffset[1]])
 	
 	
