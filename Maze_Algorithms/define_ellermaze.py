@@ -34,30 +34,37 @@ class define_Ellermaze:
 				self.maze[self.position[1]][self.position[0]][0] = 0
 				self.maze[self.position[1] + 1][self.position[0]][1] = 0
 				self.numbers[self.position[1] + 1][self.position[0]] = self.numbers[self.position[1]][self.position[0]]
-				self.hole = True
+				self.holes[self.floorNumbers.index(self.numbers[self.position[1]][self.position[0]])] = True
 			else:
-				self.floors.append(self.position.copy())
+				self.floorPositions[self.floorNumbers.index(self.numbers[self.position[1]][self.position[0]])].append(self.position.copy())
 			if self.position[0] == self.mazeSize - 1:
 				self.checkfloor = True
 			else:
-				if self.number != self.numbers[self.position[1]][self.position[0] + 1]:
-					self.checkfloor = True
-					self.number = self.numbers[self.position[1]][self.position[0] + 1]
+				if self.numbers[self.position[1]][self.position[0]] != self.numbers[self.position[1]][self.position[0] + 1]:
+					if self.numbers[self.position[1]][self.position[0] + 1] not in self.floorNumbers:
+						self.floorNumbers.append(self.numbers[self.position[1]][self.position[0] + 1])
+						self.floorPositions.append([])
+						self.holes.append(False)
+
 			if self.checkfloor:
-				if not self.hole:
-					hole = random.choice(self.floors)
+				for number in range(len(self.floorPositions)):
+					if self.holes[number]:
+						continue
+					hole = random.choice(self.floorPositions[number])
 					self.maze[hole[1]][hole[0]][0] = 0
 					self.maze[hole[1] + 1][hole[0]][1] = 0
 					self.numbers[hole[1] + 1][hole[0]] = self.numbers[hole[1]][hole[0]]
-					self.hole = True
-				self.checkfloor = False
-				self.floors = []
-				self.hole = False
+					self.holes[number] = True
 
+				self.holes = [False]
+				self.floorPositions = [[]]
+				self.checkfloor = False
+				
 		self.position[0] += 1
 		if self.check_maze():
 			if self.position[0] == self.mazeSize - 1 and self.siding:
 				self.position[0] = 0
+				self.floorNumbers = [self.numbers[self.position[1]][self.position[0]]]
 				self.siding = False
 				self.flooring = True
 				self.number = self.numbers[self.position[1]][self.position[0]]
@@ -81,9 +88,9 @@ class define_Ellermaze:
 
 		self.siding = True
 		self.flooring = False
-		self.number = self.numbers[self.position[1]][self.position[0]]
+		self.floorNumbers = [self.numbers[self.position[1]][self.position[0]]]
+		self.holes = [False]
+		self.floorPositions = [[]]
 		self.checkfloor = False
-		self.floors = []
-		self.hole = False
-		
+
 		self.create_maze()
